@@ -1,4 +1,6 @@
 import {Point} from "./Point.js";
+import {Vector} from "./Vector.js";
+import {Matrix} from "./Matrix.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -14,15 +16,36 @@ let angleZ = 0;
 let angleX = 0;
 let angleY = 0;
 
+let vertices = [
+    new Vector({x: 0.5, y: 0.5, z: 0.5, w: 0}),
+    new Vector({x: 0.5, y: 0.5, z: -0.5, w: 0}),
+    new Vector({x: 0.5, y: -0.5, z: 0.5, w: 0}),
+    new Vector({x: 0.5, y: -0.5, z: -0.5, w: 0}),
+    new Vector({x: -0.5, y: 0.5, z: 0.5, w: 0}),
+    new Vector({x: -0.5, y: 0.5, z: -0.5, w: 0}),
+    new Vector({x: -0.5, y: -0.5, z: 0.5, w: 0}),
+    new Vector({x: -0.5, y: -0.5, z: -0.5, w: 0}),
+]
+
 function clear() {
     ctx.fillStyle = BACKGROUND_COLOR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = STROKE_COLOR;
 }
 
+function convertCartesian(vector, side) {
+    // x belongs to [-1; 1]   | add 1
+    // x belongs to [0; 2]    | divide by 2
+    // x belongs ot [0; 1]    | divide by width/height to shrink interval
 
-function drawSquare(point, side) {
-    let cartesian = point.project().convertCartesian(WIDTH, HEIGHT, side);
+    let new_x = (vector.x + 1) / 2 * WIDTH - side / 2;
+    let new_y = (1 - (vector.y + 1) / 2) * HEIGHT - side / 2;
+
+    return new Vector({x: new_x, y: new_y, z: vector.z, w: vector.w});
+}
+
+function drawSquare(vector, side) {
+    let cartesian = convertCartesian(vector, side);
     ctx.fillRect(cartesian.x, cartesian.y, side, side);
 }
 
@@ -69,30 +92,17 @@ function drawFrame() {
     const dt = 1 / FPS;
     const da = Math.PI / FPS;
     dz += dt;
-    angleZ += da;
-    angleX += da;
-    angleY += da;
+    angleZ = da;
+    angleX = da;
+    angleY = da;
 
     clear();
-    let p = new Point(-0.5, -0.5, dz);
-    let p1 = new Point(0.5, 0.5, dz);
-    let p2 = new Point(-0.5, 0.5, dz);
-    let p3 = new Point(0.5, -0.5, dz);
 
-    let p4 = new Point(-0.5, -0.5, -dz);
-    let p5 = new Point(0.5, 0.5, -dz);
-    let p6 = new Point(-0.5, 0.5, -dz);
-    let p7 = new Point(0.5, -0.5, -dz);
-
-    drawSquare(rotateZ(p, angleZ), 10);
-    drawSquare(rotateZ(p1, angleZ), 10);
-    drawSquare(rotateZ(p2, angleZ), 10);
-    drawSquare(rotateZ(p3, angleZ), 10);
-
-    drawSquare(rotateZ(p4, angleZ), 10);
-    drawSquare(rotateZ(p5, angleZ), 10);
-    drawSquare(rotateZ(p6, angleZ), 10);
-    drawSquare(rotateZ(p7, angleZ), 10);
+    for (let i = 0; i < vertices.length; i++) {
+        let transformMatrix = Matrix.matrixMultiply(Matrix.rotationMatrixXY(angleZ), Matrix.rotationMatrixXZ(angleY));
+        vertices[i] = Matrix.vectorMultiply(transformMatrix, vertices[i]);
+        drawSquare(vertices[i], 10);
+    }
 
     setTimeout(drawFrame, 1000 / FPS);
 }
