@@ -1,2 +1,21 @@
-<canvas id="canvas" width="600" height="600">Canvas</canvas>
-<script type="module" src="index.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="600">Canvas</canvas>
+    <div class="input">
+        <label for="xAngle">X Angle</label>
+        <input type="range" min="0" max="360" value="1" class="slider" id="xAngle">
+        <label for="yAngle">Y Angle</label>
+        <input type="range" min="0" max="360" value="1" class="slider" id="yAngle">
+        <label for="zAngle">Z Angle</label>
+        <input type="range" min="0" max="360" value="1" class="slider" id="zAngle">
+    </div>
+    <script type="module" src="index.js"></script>
+
+</body>
+</html>

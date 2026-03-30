@@ -1,0 +1,7 @@
+body {
+    display: flex;
+}
+.input {
+    display: flex;
+    flex-direction: column;
+}

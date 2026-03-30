@@ -11,6 +11,12 @@ export class Matrix {
     }
 
     static rotationMatrixXY(angle) {
+        /*
+            |cos a  -sin a   0| |x|
+            |sin a   cos a   0| |y|
+            |  0       0     1| |z|
+        */
+
         return new Matrix({cells:
                 [Math.cos(angle), -Math.sin(angle), 0, 0,
                 Math.sin(angle), Math.cos(angle), 0, 0,
@@ -19,6 +25,12 @@ export class Matrix {
     }
 
     static rotationMatrixXZ(angle) {
+        /*
+            |cos a      0   -sin a| |x|
+            |  0        1        0| |y|
+            |sin a      0    cos a| |z|
+        */
+
         return new Matrix({cells:
                 [
                     Math.cos(angle), 0, -Math.sin(angle), 0,
@@ -29,6 +41,12 @@ export class Matrix {
     }
 
     static rotationMatrixYZ(angle) {
+        /*
+            |  1      0         0| |x|
+            |  0   cos a   -sin a| |y|
+            |  0   sin a    cos a| |z|
+        */
+
         return new Matrix({cells:
                 [
                     1, 0, 0, 0,
