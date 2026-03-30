@@ -8,9 +8,17 @@ const xSlider = document.getElementById("xAngle");
 const ySlider = document.getElementById("yAngle");
 const zSlider = document.getElementById("zAngle");
 
+const xParagraph = document.getElementById("pX");
+const yParagraph = document.getElementById("pY");
+const zParagraph = document.getElementById("pZ");
+
+const fileUpload = document.getElementById("fileInput");
+let fileContent = "";
+
 const FPS = 60;
 const BACKGROUND_COLOR = "#151515";
 const STROKE_COLOR = "#66FF66";
+//const STROKE_COLOR = "#FF3366";
 const HEIGHT = canvas.height;
 const WIDTH = canvas.width;
 
@@ -19,11 +27,31 @@ let angleZ = 0;
 let angleX = 0;
 let angleY = 0;
 let radiansPerSecond = Math.PI / 2;  // rotation speed
+let object = Body.cube;
 
 let transformedVertices = [];
 
+
+fileUpload.addEventListener("change", function () {
+    const reader = new FileReader();
+
+    reader.onload = function () {
+        fileContent = reader.result;
+    }
+
+    reader.readAsText(this.files[0]);
+
+});
+
+document.getElementById("loadButton").addEventListener("click", loadObjectFromFile);
+
+
 function degToRad(degrees) {
     return degrees * Math.PI / 180;
+}
+
+function loadObjectFromFile() {
+    object = Body.readObjFile(fileContent);
 }
 
 function clear() {
@@ -60,35 +88,46 @@ function drawLine(vector1, vector2) {
     ctx.stroke();
 }
 
+function drawFace(vertices, face) {
+    for (let i = 0; i < face.length; i++) {
+        // draw a line from transformed vertex to another
+        // we need -1 because .obj files are 1-indexed
+
+        const vect1 = face[i] - 1;
+        const vect2 = face[(i + 1) % face.length] - 1;
+        drawLine(vertices[vect1], vertices[vect2]);
+    }
+
+}
+
 function drawFrame() {
     const dt = 1 / FPS;
     const da = radiansPerSecond / FPS;
     dz += dt;
+
     angleX = degToRad(xSlider.value);
     angleY = degToRad(ySlider.value);
     angleZ = degToRad(zSlider.value);
 
-    // angleX = da;
-    // angleY = da;
-    // angleZ = da;
+    xParagraph.textContent = `${xSlider.value}°`;
+    yParagraph.textContent = `${ySlider.value}°`;
+    zParagraph.textContent = `${zSlider.value}°`;
 
     clear();
-    let object = Body.pyramid;
 
     for (let i = 0; i < object.vertices.length; i++) {
         let transformMatrix = Matrix.matrixMultiply(Matrix.rotationMatrixXY(angleZ), Matrix.rotationMatrixXZ(angleY));
         transformMatrix = Matrix.matrixMultiply(transformMatrix, Matrix.rotationMatrixYZ(angleX));
+        //transformMatrix = Matrix.matrixMultiply(transformMatrix, Matrix.translationMatrix({Tx: 0.2, Ty: 0, Tz: 0.2}));
         //transformMatrix = Matrix.matrixMultiply(transformMatrix, Matrix.rotationMatrixYZ(angleY));
         //transformMatrix = Matrix.matrixMultiply(transformMatrix, Matrix.rotationMatrixXZ(angleY));
-        //vertices[i] = Matrix.vectorMultiply(Matrix.translationMatrix({Tx: 0, Ty: 0, Tz: 0}), vertices[i]);
         transformedVertices[i] = (Matrix.vectorMultiply(transformMatrix, object.vertices[i]));
         drawSquare(transformedVertices[i], 1);
     }
 
-    for (let i = 0; i < object.edges.length; i++) {
-        // draw a line from transformed vertex to another
-        // we need -1 because .obj files are 1-indexed
-        drawLine(transformedVertices[object.edges[i][0] - 1], transformedVertices[object.edges[i][1] - 1]);
+    for (let i = 0; i < object.faces.length; i++) {
+
+        drawFace(transformedVertices, object.faces[i]);
     }
 
     setTimeout(drawFrame, 1000 / FPS);

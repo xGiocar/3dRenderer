@@ -1,6 +1,12 @@
 body {
     display: flex;
 }
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 .input {
     display: flex;
     flex-direction: column;

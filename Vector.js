@@ -28,6 +28,20 @@ export class Vector {
         this.y *= value;
         this.z *= value;
         this.w *= value;
+        return this;
+    }
+
+    length(){
+        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2))
+    }
+
+    normalize(){
+        let magnitude = this.length();
+        this.x /= magnitude;
+        this.y /= magnitude;
+        this.z /= magnitude;
+
+        return this;
     }
 
     static scale(vector1, value) {

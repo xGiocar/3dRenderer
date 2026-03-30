@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,14 +9,31 @@
 <body>
     <canvas id="canvas" width="600" height="600">Canvas</canvas>
     <div class="input">
-        <label for="xAngle">X Angle</label>
-        <input type="range" min="0" max="360" value="1" class="slider" id="xAngle">
-        <label for="yAngle">Y Angle</label>
-        <input type="range" min="0" max="360" value="1" class="slider" id="yAngle">
-        <label for="zAngle">Z Angle</label>
-        <input type="range" min="0" max="360" value="1" class="slider" id="zAngle">
+        <div class="row">
+            <label for="xAngle">X Angle</label>
+            <input type="range" min="0" max="360" value="1" class="slider" id="xAngle">
+            <p class="value" id="pX">0°</p>
+        </div>
+
+        <div class="row">
+            <label for="yAngle">Y Angle</label>
+            <input type="range" min="0" max="360" value="1" class="slider" id="yAngle">
+            <p class="value" id="pY">0°</p>
+        </div>
+
+        <div class="row">
+            <label for="zAngle">Z Angle</label>
+            <input type="range" min="0" max="360" value="1" class="slider" id="zAngle">
+            <p class="value" id="pZ">0°</p>
+        </div>
+        <p>Upload your .obj file</p>
+        <div class="row">
+            <input type="file" id="fileInput">
+        </div>
+        <input type="button" value="Load File" id="loadButton"/>
     </div>
     <script type="module" src="index.js"></script>
 
 </body>
 </html>
+
