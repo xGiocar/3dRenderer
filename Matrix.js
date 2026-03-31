@@ -26,9 +26,9 @@ export class Matrix {
 
     static rotationMatrixXZ(angle) {
         /*
-            |cos a      0   -sin a| |x|
-            |  0        1        0| |y|
-            |sin a      0    cos a| |z|
+            |cos a     0   -sin a| |x|
+            |  0       1        0| |y|
+            |sin a     0    cos a| |z|
         */
 
         return new Matrix({cells:
