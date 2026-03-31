@@ -40,7 +40,7 @@ let angleZ = 0;
 let angleX = 0;
 let angleY = 0;
 //let radiansPerSecond = Math.PI / 2;  // rotation speed
-let object = Body.pyramid;
+let object = Body.cube;
 let stroke_color = pickColor.value;
 
 let spinX = false;
@@ -52,7 +52,6 @@ let rotationSpeedY = 0;
 let rotationSpeedZ = 0;
 
 let transformedVertices = [];
-
 
 fileUpload.addEventListener("change", function () {
     const reader = new FileReader();
@@ -128,11 +127,8 @@ function drawFace(vertices, face) {
 }
 
 function drawFrame() {
-    const dt = 1 / FPS;
 
     let transformMatrix = new Matrix();
-    dz += dt;
-
     spinX = xSpinCheck.checked;
     spinY = ySpinCheck.checked;
     spinZ = zSpinCheck.checked;

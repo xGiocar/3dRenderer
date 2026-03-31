@@ -65,7 +65,7 @@ export class Matrix {
     }
 
     at(i, j) {
-        return this.cells[i - 1 + 4 * (j - 1)];
+        return this.cells[(j - 1) + 4 * (i - 1)];
     }
 
     static vectorMultiply(matrix, vector) {
@@ -97,14 +97,14 @@ export class Matrix {
     static matrixMultiply(matrix1, matrix2) {
         let resultCells = new Array(16).fill(0);
 
-        for (let j = 1; j <= 4; j++) { // columns
-            for (let i = 1; i <= 4; i++) { // rows
-                let sum = 0;
 
+        for (let i = 1; i <= 4; i++) {
+            for (let j = 1; j <= 4; j++) {
+
+                let sum = 0;
                 for (let k = 1; k <= 4; k++) {
                     sum += matrix1.at(i, k) * matrix2.at(k, j);
                 }
-
                 resultCells[(i - 1) + 4 * (j - 1)] = sum;
             }
         }

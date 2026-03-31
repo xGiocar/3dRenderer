@@ -4,8 +4,6 @@
     <list default="true" id="4b60b7b6-2efd-4371-9af9-db309d7f96ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Matrix.js" beforeDir="false" afterPath="$PROJECT_DIR$/Matrix.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,7 +71,7 @@
       <option name="presentableId" value="Default" />
       <updated>1774722267809</updated>
       <workItem from="1774722268581" duration="5919000" />
-      <workItem from="1774731495234" duration="56595000" />
+      <workItem from="1774731495234" duration="59978000" />
     </task>
     <servers />
   </component>
