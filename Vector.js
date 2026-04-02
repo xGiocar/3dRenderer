@@ -20,7 +20,7 @@ export class Vector {
             y: vector1.y + vector2.y,
             z: vector1.z + vector2.z,
             w: vector1.w + vector2.w }
-        )
+        );
     }
 
     scale(value) {
@@ -32,11 +32,12 @@ export class Vector {
     }
 
     length(){
-        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2))
+        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
     }
 
     normalize(){
         let magnitude = this.length();
+        if (magnitude === 0) return this;
         this.x /= magnitude;
         this.y /= magnitude;
         this.z /= magnitude;
@@ -50,7 +51,7 @@ export class Vector {
             y: vector1.y * value,
             z: vector1.z * value,
             w: vector1.w * value }
-        )
+        );
     }
 
     static scalarProduct(vector1, vector2) {

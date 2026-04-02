@@ -2,7 +2,7 @@ import {Vector} from "./Vector.js";
 import {Matrix} from "./Matrix.js";
 
 export class Body {
-    constructor(props) {
+    constructor(props = {vertices: [], faces: []}) {
         this.vertices = props.vertices;
         this.faces = props.faces;
     }
@@ -80,34 +80,35 @@ export class Body {
             }
         }
 
-        let xMin = vertices[0].x;
-        let xMax = vertices[0].x;
-        let yMin = vertices[0].y;
-        let yMax = vertices[0].y;
-        let zMin = vertices[0].z;
-        let zMax = vertices[0].z;
-        // finds the max and for each coordinate
-        for (let i = 1; i < vertices.length; i++) {
-            let v = vertices[i];
-            if (v.x < xMin) xMin = v.x;
-            if (v.x > xMax) xMax = v.x;
-            if (v.y < yMin) yMin = v.y;
-            if (v.y > yMax) yMax = v.y;
-            if (v.z < zMin) zMin = v.z;
-            if (v.z > zMax) zMax = v.z;
-        }
+        // compute the center for each axis (x,y,z)
+        let maximums = new Array(3);
+        let minimums = new Array(3);
+        let centers = new Array(3);
 
-        // normalizes the coordinates to fit in the [0; 1] interval
+        maximums[0] = Math.max(...vertices.map(v => v.x));
+        minimums[0] = Math.min(...vertices.map(v => v.x));
+
+        maximums[1] = Math.max(...vertices.map(v => v.y));
+        minimums[1] = Math.min(...vertices.map(v => v.y));
+
+        maximums[2] = Math.max(...vertices.map(v => v.z));
+        minimums[2] = Math.min(...vertices.map(v => v.z));
+
+        centers[0] = (maximums[0] + minimums[0]) / 2;
+        centers[1] = (maximums[1] + minimums[1]) / 2;
+        centers[2] = (maximums[2] + minimums[2]) / 2;
+
+        // translate the body to (its) center
         for (let i = 0; i < vertices.length; i++) {
-            let v = vertices[i];
-            v.x = (v.x - xMin) / (xMax - xMin);
-            v.y = (v.y - yMin) / (yMax - yMin);
-            v.z = (v.z - zMin) / (zMax - zMin);
-
-            // centers the model
-            v.x = v.x - 0.5;
-            v.y = v.y - 0.5;
-            v.z = v.z - 0.5;
+            vertices[i] = Matrix.vectorMultiply(Matrix.translationMatrix(-centers[0], -centers[1], -centers[2]), vertices[i]);
+            // v.x = (v.x - xMin) / (xMax - xMin);
+            // v.y = (v.y - yMin) / (yMax - yMin);
+            // v.z = (v.z - zMin) / (zMax - zMin);
+            //
+            // // centers the model
+            // v.x = v.x - 0.5;
+            // v.y = v.y - 0.5;
+            // v.z = v.z - 0.5;
         }
 
         console.log(vertices)

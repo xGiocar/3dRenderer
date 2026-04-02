@@ -56,11 +56,19 @@ export class Matrix {
                 ]});
     }
 
-    static translationMatrix({Tx, Ty, Tz}) {
+    static translationMatrix(tx = 0, ty = 0, tz = 0) {
         return new Matrix({cells:
-                [1, 0, 0, Tx,
-                0, 1, 0, Ty,
-                0, 0, 1, Tz,
+                [1, 0, 0, tx,
+                0, 1, 0, ty,
+                0, 0, 1, tz,
+                0, 0, 0, 1 ]});
+    }
+
+    static scalingMatrix(sx = 1, sy = 1, sz = 1) {
+        return new Matrix({cells:
+                [sx, 0, 0, 0,
+                0, sy, 0, 0,
+                0, 0, sz, 0,
                 0, 0, 0, 1 ]});
     }
 
